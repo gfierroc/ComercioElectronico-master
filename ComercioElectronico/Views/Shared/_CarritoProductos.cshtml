@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ComercioElectronico.Models.CarritoModel>
+
+<div class="panel-body">
+
+    <div class="row">
+        <div class="center-block col-md-12">
+            @if (Model.Count() > 0)
+            {
+                <div class="form-group col-md-12 ">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <strong>Articulo</strong>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <strong>Cantidad</strong>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <strong>Precio</strong>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                foreach (var item in Model)
+                {
+
+                    <div class="form-group col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 font-weight-bold">
+                                <strong>@Html.DisplayFor(model => item.NombreProducto)</strong>
+                            </div>
+                            <div class="col-md-4">
+
+                                @Html.ActionLink("-", "QuitarProduct", "Carrito", new { idProd = item.IdProducto }, new { @class = "col-md-2" })
+
+                                <input type="text" min="1" value="@Html.DisplayFor(model => item.Cantidad)" class="form-control col-md-2" />
+
+                                @Html.ActionLink("+", "AddProduct", "Carrito", new { idProd = item.IdProducto }, new { @class = "col-md-2" })
+                            </div>
+                            <div class="input-group col-md-4 text-center" style="height:35px;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" min="@Html.DisplayFor(model => item.PrecioXcantidad)" value="@Html.DisplayFor(model => item.PrecioXcantidad)" readonly="readonly" class="form-control col-md-4" />
+                            </div>
+                            <div class="col-md-2">
+                                @Html.ActionLink("Quitar", "Quitar", "Carrito", new { id = item.IdProducto }, new { @class = "nav-link" })
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-4 text-center font-weight-bold">
+                            <strong>Total</strong>
+                        </div>
+                        <div class="input-group col-md-4 text-center">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" min="@ViewBag.Total)" value="@ViewBag.Total" readonly="readonly" class="form-control col-md-4" />
+                        </div>
+                        <div class="col-md-2">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12 text-center">
+                    <label>No hay articulos en su carrito, vaya a la seccion de produtos para seleccionar los que desee.</label>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+<div class="panel-footer">
+    @if (Model.Count() > 0)
+    {
+        using (Html.BeginForm("Pagar", "Carrito", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="form-group col-md-7 text-right">
+
+                    @Html.ValidationSummary(true, "Por favor intentar nuevamente.")
+                    <label>Ingresa un cupón valido</label>
+                    <input type="text" id="cupon" name="cupon" class="col-md-4" value="" required="" placeholder="Ingresa el cupon"/>
+                    <input type="submit" value="Pagar" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,51 @@
+﻿@model ComercioElectronico.Models.ProductoModel
+@if (Model != null)
+{
+    using (Html.BeginForm("AgregarProducto", "Productos", FormMethod.Post))
+    {
+        <div class="container">
+            <div class="panel panel-default" role="document">
+                <div class="panel-header text-center">
+                    <h4 class="title">
+                        @Html.DisplayFor(model => model.NombreProducto)
+                    </h4>
+                    <input type="hidden" id="NomProd" name="NomProd" value="@Model.NombreProducto" />
+                </div>
+                <div class="panel-body">
+                    <div class="text-center">
+                        <img width="450" src="@Url.Action("GetImage", "Productos", new { id = Model.IdProducto })" />
+                        <input type="hidden" id="idProd" name="idProd" value="@Model.IdProducto" />
+                    </div>
+                    <div class="text-center font-weight-bold" style="font-size:25px;">
+                        $ @Html.DisplayFor(model => model.PrecioUnitario)
+                        <input type="hidden" id="precio" name="precio" value="@Model.PrecioUnitario" />
+                    </div>
+                    <div>
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div class="text-center">
+                            <input id="cantidad" name="cantidad" type="number" min="1" value="1" class="form-control" />
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" value="Agregar al carrito" class="btn btn-primary col-md-12" />
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Para agregar al carrito es necesario ingresar", "Login", "Account");
+                    }
+                    <br>
+                    @Html.ActionLink("Ver Productos", "Index")
+                </div>
+            </div>
+        </div>
+
+    }
+}

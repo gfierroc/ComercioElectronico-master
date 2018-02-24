@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ComercioElectronico.Models.ProductoModel>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div style="height:100px;" class="col-md-12 text-center font-weight-bold">@item.NombreProducto</div>
+            <div class="col-md-12 text-center" style="height:150px;">
+                @if (item.PhotoFile != null)
+                {
+                    <img width="200" src="@Url.Action("GetImage","Productos", new { id = item.IdProducto })" />
+                }
+            </div>
+            <div class="col-md-12 text-center">
+                $ @Html.DisplayFor(model => item.PrecioUnitario)
+            </div>
+            <div class="col-md-12 text-center">
+                @Html.ActionLink("Ver", "VerProducto", new { id = item.IdProducto }, new { @class = "btn btn-primary col-md-12" })
+            </div>
+        </div>
+    }
+</div>
